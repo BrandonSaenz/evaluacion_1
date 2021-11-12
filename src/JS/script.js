@@ -66,17 +66,9 @@ function crearSecciones(){
         let div=document.createElement('div');
         div.classList='section'; div.id=`section_${i}`;
         div.style.left=`${(100*i)}%`;
-
-        let title=document.createElement('p');
-        title.classList='mayus text-center title-content';
-        title.textContent=list_menu[i].title;
-
-        let useImportPage=document.getElementById('sumaImport');
-
-        div.innerHTML=useImportPage;
-        content.appendChild(div);
-    }
+       
 }
+
 
 var go={
     suma: function(){
