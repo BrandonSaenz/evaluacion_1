@@ -2,5 +2,5 @@ document.addEventListener('DOMContentLoaded', function() {
     M.AutoInit();
     crearSecciones();
     crearMenu();
-    onView(1);
+    onView(5);
 });

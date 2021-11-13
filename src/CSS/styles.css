@@ -48,18 +48,22 @@ input:focus{
 	color: #e57373;
 }
 
-#inputs-suma {
+#inputs-calc {
 	flex-direction: column;
 	align-items: center;
     padding: 0 10% 0 10%;
 }
-#result-suma {
+#result-calc {
 	flex-direction: column;
 	align-items: center;
     padding: 0 10% 0 10%;
 }
 
 #resultado{display: none;}
+
+.input-division{
+	margin: 1.1rem 1rem 1rem 2rem !important;
+}
 
 .divider{
 	border-bottom: 0.3rem solid #252525;
@@ -70,6 +74,11 @@ input:focus{
 .signo{
 	font-size: 3rem;
     margin: -8.1rem 0 0 -17rem;
+}
+
+.casita{
+	border-left: 0.3rem solid #252525;
+	border-top: 0.3rem solid #252525;
 }
 
 .color-dark{color:  #252525;}

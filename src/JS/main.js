@@ -56,7 +56,7 @@ function crearMenu(){
     
     for(var i=0; i<=list_menu.length-1; i++){
         li+=`<li onclick="onView(${i})"><a href="#" class="mayus">${list_menu[i].title}</a></li>`;
-        li_movil+=`<li onclick="onView(${i})" class="float-default"><a href="#" class="color-dark mayus">${list_menu[i].title}</a></li>`;
+        li_movil+=`<li onclick="onView(${i})" class="float-default"><a href="#" data-target="slide-out" class="color-dark mayus sidenav-close">${list_menu[i].title}</a></li>`;
     }
     ul_menu.innerHTML=li;
     ul_menu_movil.innerHTML=li_movil;
@@ -94,6 +94,10 @@ function pageOnload(value){
     let poppins=document.createElement('link');
     poppins.href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap'; 
     poppins.rel='stylesheet';
+
+    let raod=document.createElement('link');
+    raod.href='https://fonts.googleapis.com/css2?family=Road+Rage&display=swap'; 
+    raod.rel='stylesheet';
 
     let materialIcons=document.createElement('link');
     materialIcons.href='https://fonts.googleapis.com/icon?family=Material+Icons'; materialIcons.rel='stylesheet';
@@ -164,24 +168,21 @@ function validInputNumber(id){
     let element=document.getElementById(`input_${id}`);
     var btn_go=document.getElementById('btn-go');
     var log=document.getElementById('log');
-    var regNumbers = /^[0-9]+$/;
+    var regNumbers = /^(?!0\d)\d*(\.\d+)?$/;
     if(element.value.match(regNumbers)){
         if(element.value.length>0){
             element.classList='valid-input right-text';
-            divider.classList='divider valid-input';
             btn_go.disabled = false;
             log.innerHTML='<i class="log-ok material-icons title-content text-center center">check</i>';
             return true;
         }else{
             element.classList='invalid-input right-text';
-            divider.classList='divider invalid-input';
             btn_go.disabled = true;
             log.innerHTML='<i class="log-error material-icons title-content text-center center">close</i>&nbsp;&nbsp;&nbsp;SOLO SE ADMITEN NUMEROS';
             return false;
         }
     }else{
         element.classList='invalid-input right-text';
-        divider.classList='divider invalid-input';
         btn_go.disabled = true;
         log.innerHTML='<i class="log-error material-icons title-content text-center center">close</i>&nbsp;&nbsp;&nbsp;SOLO SE ADMITEN NUMEROS';
         return false;
