@@ -36,38 +36,27 @@ var list_menu=[
     }
 ];
 
-function goContent(index){
-    let content=document.getElementById('content');
-    content.scrollLeft=content.clientWidth*index;
-}
-
 function onView(index){
     let actualSection=document.getElementById(`section_${index}`);
 
     for(var i=0; i<=list_menu.length-1; i++){
         if(i==index){
-            actualSection.style.display="block";
-            setTimeout(function(){
-                actualSection.style.opacity="1";
-            },200);
+            slowShow(actualSection);
         }else{
             let otherSection=document.getElementById(`section_${i}`);
-            otherSection.style.opacity="0";
-            setTimeout(function(){
-                otherSection.style.display="none";
-            },200);
+            slowHide(otherSection);
         }
     }
     
 }
 
 function crearMenu(){
-    let ul_menu=document.getElementById('ul_menu'), ul_menu_movil=document.getElementById('ul_menu-movil'); 
-    let li='', li_movil='';
+    let ul_menu=document.getElementById('ul_menu'), ul_menu_movil=document.querySelector('.ul_menu-movil'); 
+    let li='', li_movil='<a href="#" data-target="slide-out" class="sidenav-close"><i class="material-icons color-dark">clear</i></a>';
     
     for(var i=0; i<=list_menu.length-1; i++){
-        li+=`<li onclick="onView(${i})"><a href="#">${list_menu[i].title}</a></li>`;
-        li_movil+=`<li onclick="onView(${i})" class="float-default"><a href="#">${list_menu[i].title}</a></li>`;
+        li+=`<li onclick="onView(${i})"><a href="#" class="mayus">${list_menu[i].title}</a></li>`;
+        li_movil+=`<li onclick="onView(${i})" class="float-default"><a href="#" class="color-dark mayus">${list_menu[i].title}</a></li>`;
     }
     ul_menu.innerHTML=li;
     ul_menu_movil.innerHTML=li_movil;
@@ -89,16 +78,10 @@ function crearSecciones(){
     }
 }
 
-var go={
-    suma: function(){
-    },
-    resta: function(){
-    }
-}
-
 function pageOnload(value){
     let head=document.head;
 
+    // IMPORTS LINK TAG
     let materializeCSS=document.createElement('link');
     materializeCSS.href='../CSS/materialize.css'; materializeCSS.rel='stylesheet';
 
@@ -108,18 +91,28 @@ function pageOnload(value){
     let gstatic=document.createElement('link');
     gstatic.href='https://fonts.gstatic.com'; gstatic.rel='preconnect';
 
-    let styles=document.createElement('link');
-    styles.href='../CSS/styles.css'; styles.rel='stylesheet';
-
     let poppins=document.createElement('link');
     poppins.href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap'; 
     poppins.rel='stylesheet';
+
+    let materialIcons=document.createElement('link');
+    materialIcons.href='https://fonts.googleapis.com/icon?family=Material+Icons'; materialIcons.rel='stylesheet';
+
+    let styles=document.createElement('link');
+    styles.href='../CSS/styles.css'; styles.rel='stylesheet';
+
+
+    // IMPORTS SCRIPTS TAG 
+
+    let jQuery=document.createElement('script');
+    jQuery.src='https://code.jquery.com/jquery-3.2.1.min.js'; 
+    jQuery.type='text/javascript'; jQuery.crossOrigin='anonymous';
 
     let materializeJS=document.createElement('script');
     materializeJS.src='../JS/materialize.js'; 
     materializeJS.type='text/javascript';
 
-    let tags=[materializeCSS,materializeJS,googleapis,gstatic,poppins,styles];
+    let tags=[materializeCSS,googleapis,gstatic,poppins,materialIcons,styles,jQuery,materializeJS];
 
     for(var i=0; i<=tags.length-1; i++){
         head.appendChild(tags[i]);
@@ -140,10 +133,65 @@ function getFrameValue(value){
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    //window.onerror = function(){return true;}
-    M.AutoInit();
-    crearSecciones();
-    crearMenu();
-    onView(0);
-});
+function slowHide(element){
+    element.style.opacity="0";
+    setTimeout(function(){
+        element.style.display="none";
+    },200);
+}
+function slowShow(element){
+    element.style.display="block";
+    setTimeout(function(){
+        element.style.opacity="1";
+    },200);
+}
+
+function hide(element){
+    element.style.display='none';
+}
+function showBlock(element){
+    element.style.display='block';
+}
+function showFlex(element){
+    element.style.display='flex';
+}
+
+function cleanTag(element){
+    element.innerHTML='';
+}
+
+function validInputNumber(id){
+    let element=document.getElementById(`input_${id}`);
+    var btn_go=document.getElementById('btn-go');
+    var log=document.getElementById('log');
+    var regNumbers = /^[0-9]+$/;
+    if(element.value.match(regNumbers)){
+        if(element.value.length>0){
+            element.classList='valid-input right-text';
+            divider.classList='divider valid-input';
+            btn_go.disabled = false;
+            log.innerHTML='<i class="log-ok material-icons title-content text-center center">check</i>';
+            return true;
+        }else{
+            element.classList='invalid-input right-text';
+            divider.classList='divider invalid-input';
+            btn_go.disabled = true;
+            log.innerHTML='<i class="log-error material-icons title-content text-center center">close</i>&nbsp;&nbsp;&nbsp;SOLO SE ADMITEN NUMEROS';
+            return false;
+        }
+    }else{
+        element.classList='invalid-input right-text';
+        divider.classList='divider invalid-input';
+        btn_go.disabled = true;
+        log.innerHTML='<i class="log-error material-icons title-content text-center center">close</i>&nbsp;&nbsp;&nbsp;SOLO SE ADMITEN NUMEROS';
+        return false;
+    }
+}
+
+var go={
+    suma: function(){
+
+    },
+    resta: function(){
+    }
+}

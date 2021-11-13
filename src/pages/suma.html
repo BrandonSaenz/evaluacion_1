@@ -1,5 +1,94 @@
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-<script src="../JS/script.js" type="text/javascript"></script>
+<!DOCTYPE html>
+<script src="../JS/main.js" type="text/javascript"></script>
 <body onload="pageOnload('title')">
     <p class="title-content text-center" id="title"></p>
+    <div id="inputs-suma" class="div-center"></div>
+    <div id="result-suma" class="div-center"></div>
+    <div class="div-center">
+        <i class="material-icons left signo">add</i>
+    </div>
+    <div class="div-center">
+        <button id="btn-go" class="waves-effect waves-light btn text blue lighten-3" onclick="go()"><i class="material-icons left">drag_handle</i>SUMAR</button>
+        <label id="resultado" class="text-result color-dark" type="text"></label>
+    </div>
+    <div id="log" class="div-center log-error fs16">
+        <i class="log-ok material-icons title-content text-center center">check</i>
+    </div>
+    <div class="fixed-action-btn">
+        <button id="btn-add" class="waves-effect waves-light btn-floating btn-large blue lighten-3 tooltipped" data-position="left" data-tooltip="AÑADIR CAMPO" onclick="addInput()">
+          <i class="large material-icons">add</i>
+        </button>
+        <button id="btn-reload" style="display: none;" class="waves-effect waves-light btn-floating btn-large blue lighten-3 tooltipped" data-position="left" data-tooltip="AÑADIR CAMPO" onclick="reload()">
+            <i class="large material-icons">cached</i>
+          </button>
+    </div>
 </body>
+<script>
+    var inputs_suma=document.getElementById('inputs-suma');
+    var result_suma=document.getElementById('result-suma');
+    var resultado=document.getElementById('resultado');
+    var btn_go=document.getElementById('btn-go');
+    var btn_add=document.getElementById('btn-add');
+    var btn_reload=document.getElementById('btn-reload');
+
+    let divider='<label class="divider"></label>';
+    let fr='';
+
+    function addInput(){
+        let contentInput=inputs_suma.getElementsByTagName('input'), listInputs=[];
+        let rest_divider = document.querySelector('.divider');
+        inputs_suma.removeChild(rest_divider);
+        for(var i =0; i<=contentInput.length-1; i++){
+            listInputs.push(contentInput[i].value);
+            console.log(`${listInputs[i]}`);
+        }
+        inputs_suma.innerHTML+=`<input id="input_${contentInput.length}" class="valid-input right-text" onchange="validInputNumber(${contentInput.length})" type="text" name="num" minlength="4" maxlength="8" size="10" value="0">${divider}`;
+        if(i>=listInputs.length-1){
+            for(var i =0; i<=contentInput.length-2; i++){
+                contentInput[i].value=listInputs[i];
+            }
+        }
+    }
+
+    function go(){
+        let contentInput=inputs_suma.getElementsByTagName('input');
+        let listInputs=[];
+        let label='';
+        let data=0;
+        for(var i =0; i<=contentInput.length-1; i++){
+            listInputs.push(contentInput[i].value);
+            label+=`<label class="text-result color-dark" type="text">${listInputs[i]}</label>`;
+
+            data+=parseInt(listInputs[i]);
+            var regNumbers = /^[0-9]+$/;
+            
+            if(i==contentInput.length-1 && validInputNumber(i)==true){
+                hide(inputs_suma);
+                hide(btn_go);
+                hide(btn_add);
+                showBlock(btn_reload);
+                label+=divider;
+                result_suma.innerHTML=label;
+                resultado.innerHTML=data;
+                showBlock(resultado);
+            }            
+        }
+    }
+
+    function reload(){
+        let input='<input id="input_0" class="valid-input right-text" onchange="validInputNumber(0)" type="text" name="num" minlength="4" maxlength="8" size="10" value="0"><input id="input_1" class="valid-input right-text" onchange="validInputNumber(1)" type="text" name="num" minlength="4" maxlength="8" size="10" value="0">'+divider;
+        inputs_suma.innerHTML=input;
+        cleanTag(result_suma);
+        cleanTag(resultado);
+        hide(btn_reload);
+        hide(resultado);
+        showFlex(inputs_suma);
+        showFlex(btn_go);
+        showFlex(btn_add);      
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        reload();
+    });
+</script>
